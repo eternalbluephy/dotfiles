@@ -12,6 +12,9 @@ return {
 				icon_width = 3,
 			},
 		},
+		terminal = {
+			enabled = true,
+		},
 	},
 	keys = {
 		{
@@ -27,6 +30,11 @@ return {
 				require("snacks").picker.recent()
 			end,
 			desc = "Find Recent Files"
-		}
+		},
+		{
+			"<leader>t",
+			function() require("snacks").terminal() end,
+			desc = "Toggle Terminal"
+		},
 	}
 }

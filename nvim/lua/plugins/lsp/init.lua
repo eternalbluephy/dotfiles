@@ -23,7 +23,6 @@ return {
 
 				-- Inlay hint
 				if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
-					vim.notify("inlay_hints on")
 					vim.lsp.inlay_hint.enable(true)
 				end
 			end

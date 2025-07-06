@@ -2,11 +2,12 @@ return {
 	"akinsho/bufferline.nvim",
 	event = "VeryLazy",
 	keys = {
-		{ "<S-h>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
-		{ "<S-l>", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
+		{ "<s-h>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
+		{ "<s-l>", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
 	},
 	opts = {
 		options = {
+			close_command = function(n) require("snacks").bufdelete(n) end,
 			diagnostitcs = "nvim_lsp",
 			always_show_bufferline = false,
 			diagnostics_indicator = function(_, _, diag)
