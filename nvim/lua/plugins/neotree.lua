@@ -29,7 +29,7 @@ return {
 		window = {
 			width = function()
 				local width = math.floor(vim.o.columns * 0.3)
-				if width > 40 then width = 40 end
+				if width > 30 then width = 30 end
 				return width
 			end
 		}

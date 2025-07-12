@@ -10,3 +10,4 @@ opt.cursorline = true
 opt.winborder = "single"
 opt.cmdheight = 0
 opt.laststatus = 3
+opt.clipboard = "unnamedplus"

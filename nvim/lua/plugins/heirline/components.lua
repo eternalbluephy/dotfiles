@@ -138,7 +138,7 @@ M.Git = {
 	hl = { fg = palette.flamingo },
 	{
 		provider = function(self)
-			return "󰘬 " .. self.status_dict.head
+			return "󰘬 " .. self.status_dict.head .. "  "
 		end
 	}
 }

@@ -61,5 +61,7 @@ return {
 	},
 	bacon_ls = {},
 
-	clangd = {}
+	clangd = {},
+
+	ts_ls = {},
 }
