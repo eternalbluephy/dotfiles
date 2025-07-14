@@ -1,6 +1,6 @@
 return {
 	"rebelot/heirline.nvim",
-	event = { "BufReadPre", "BufNewFile" },
+	event = "VeryLazy",
 	config = function()
 		local statusline = require("plugins.heirline.statusline")
 		require("heirline").setup({
