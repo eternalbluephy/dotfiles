@@ -1,3 +1,7 @@
+local calc_window_width = function()
+	local width = math.floor(vim.o.columns * 0.3) if width > 30 then width = 30 end return width
+end
+
 return {
 	"nvim-neo-tree/neo-tree.nvim",
 	cmd = "Neotree",
@@ -27,11 +31,7 @@ return {
 	opts = {
 		close_if_last_window = true,
 		window = {
-			width = function()
-				local width = math.floor(vim.o.columns * 0.3)
-				if width > 30 then width = 30 end
-				return width
-			end
+			width = calc_window_width()
 		},
 		default_component_configs = {
 			git_status = {

@@ -10,6 +10,13 @@ local colors = {
 }
 
 local M = {}
+local special_filetype_titles = {
+	["neo-tree"] = "Neo-tree",
+}
+
+local special_filetype_icons = {
+	["neo-tree"] = { glyph = "", color = palette.blue },
+}
 
 M.Mode = {
 	init = function(self)
@@ -68,11 +75,19 @@ M.Diagnostics = {
 	},
 	init = function(self)
 		self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
-		self.warnings = #vim.diagnostic.get(0, { vim.diagnostic.severity.WARN })
+		self.warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
 		self.infos = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
-		self.hints = #vim.diagnostic.get(0, { vim.diagnostic.severity.HINT })
+		self.hints = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
 	end,
-	update = { "DiagnosticChanged", "BufEnter" },
+	update = {
+		"DiagnosticChanged",
+		"BufEnter",
+		"LspAttach",
+		"LspDetach",
+		callback = vim.schedule_wrap(function()
+			pcall(vim.cmd, "redrawstatus")
+		end),
+	},
 	{
 		provider = function(self)
 			return self.errors > 0 and (self.error_icon .. self.errors .. " ")
@@ -102,11 +117,19 @@ M.Diagnostics = {
 M.FileName = {
 	init = function(self)
 		self.filename = vim.api.nvim_buf_get_name(0)
+		self.filetype = vim.bo.filetype
 	end,
 }
 
 M.FileIcon = {
 	init = function(self)
+		local special_icon = special_filetype_icons[self.filetype]
+		if special_icon then
+			self.icon = special_icon.glyph
+			self.icon_color = special_icon.color
+			return
+		end
+
 		local filename = self.filename
 		local ext = vim.fn.fnamemodify(filename, ":e")
 		self.icon, self.icon_color = require("nvim-web-devicons").get_icon_color(filename, ext, { default = true })
@@ -121,6 +144,11 @@ M.FileIcon = {
 
 M.FileNameText = {
 	provider = function(self)
+		local special_title = special_filetype_titles[self.filetype]
+		if special_title then
+			return special_title
+		end
+
 		local filename = vim.fn.fnamemodify(self.filename, ":t")
 		if filename == "" then return "[No Name]" end
 		return filename
